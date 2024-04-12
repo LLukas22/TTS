@@ -8,8 +8,9 @@ from torch.nn import functional as F
 
 
 class GroupNorm32(nn.GroupNorm):
-    def forward(self, x):
-        return super().forward(x.float()).type(x.dtype)
+    def forward(self, x:torch.Tensor):
+        x = x.float() if not x.dtype.is_floating_point else x
+        return super().forward(x).type(x.dtype)
 
 
 def conv_nd(dims, *args, **kwargs):
